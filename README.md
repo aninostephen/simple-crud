@@ -1,4 +1,4 @@
-# Modular Reactjs
+# React-Redux Simple Crud process - Modular file
 
 ## Available Scripts
 
