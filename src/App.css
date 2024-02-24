@@ -1,10 +1,22 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.container .content{
+  position: relative;
+}
+
+.container .content .overlay{
+  background-color:#EFEFEF;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  top: 0px;
+  left: 0px;
+  opacity: .5; 
+  filter: alpha(opacity=50); 
 }
 
 @media (prefers-reduced-motion: no-preference) {
