@@ -23,10 +23,21 @@ import {
     GET_CATEGORY,
     GET_CATEGORY_FAIL,
     GET_CATEGORY_SUCCESS,
+    GET_VARIATION,
+    GET_VARIATION_SUCCESS,
+    GET_VARIATION_FAIL,
+    IS_SUCCESS_DONE,
 } from "./actionTypes";
 
 const dbTblName = "merchant/product";
 const joinTbl = ['category'];
+
+export const isRedirectDone = (payload) => {
+    return {
+        type: IS_SUCCESS_DONE,
+        payload
+    }
+}
 
 export const addProduct = () => {
     return {
@@ -154,6 +165,26 @@ export const getAllCategoryFail = (error = '') => {
     }
 }
 
+export const getAllVariation = () => {
+    return {
+        type: GET_VARIATION,
+    }
+}
+
+export const getAllVariationSuccess = (data = []) => {
+    return {
+        type: GET_VARIATION_SUCCESS,
+        payload: data,
+    }
+}
+
+export const getAllVariationFail = (error = '') => {
+    return {
+        type: GET_VARIATION_FAIL,
+        payload: error,
+    }
+}
+
 export const addProductApi = (products) => {
     return async (dispatch) => {
 
@@ -277,6 +308,21 @@ export const getAllCategoryApi = () => {
             dispatch(getAllCategorySuccess(snapshot.val()));
         } else {
             dispatch(getAllCategoryFail('Error Fetching'));
+        }
+    }
+};
+
+export const getAllVariationApi = () => {
+    return async (dispatch) => {
+        dispatch(getAllVariation());
+        const db = getDatabase(app);
+        const dbRef = ref(db, 'merchant/variation');
+        const snapshot = await get(dbRef);
+        
+        if (snapshot.exists()) {
+            dispatch(getAllVariationSuccess(snapshot.val()));
+        } else {
+            dispatch(getAllVariationFail('Error Fetching'));
         }
     }
 };

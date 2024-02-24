@@ -1,14 +1,35 @@
 
 import swal from "sweetalert";
 
-const objReconstruct = data => {
+const objReconstruct = (data, newKey) => {
     if (!data) {
         return [];
     }
     return Object.keys(data).map((key) => ({
         id: key,
+        name: data[key][newKey],
         ...data[key],
     }));
+}
+
+const multSelectConstruct = (data, val, value) => {
+    if (!data || !val) {
+        return [];
+    }
+
+    const options = [];
+    const idsArray = val.split(', ');
+    idsArray 
+        && idsArray.map((val) => {
+            if (data[val]) {
+                options.push({
+                    label: data[val][value],
+                    value: val
+                });
+            }
+        })
+
+    return options;
 }
 
 const removeItemById = (item, idToRemove) => {
@@ -39,13 +60,19 @@ function capitalizeFirstWord(sentence) {
     return words.join(" ");
 }
 
-const populateSelectFromFormData = (data, targetField, newKey, newValue) => {
-    data.map((input, index) => {
-        if (input.name === targetField) {
-            data[index][newKey] = newValue;
-        }
-    });
+const populateSelectFromFormData = (data = [], targetField, newKey, newValue) => {
 
+    if (data.length === 0) {
+        return []
+    }
+
+    data.map((input, index) => {
+        targetField.map((field, idx) => {
+            if (input.name === field) {
+                data[index][newKey] = newValue[idx];
+            }
+        })
+    });
     return data;
 }
 
@@ -55,4 +82,5 @@ export {
     confirmDialog,
     capitalizeFirstWord,
     populateSelectFromFormData,
+    multSelectConstruct,
 };

@@ -18,7 +18,7 @@ const inputsForm = [
     {
         id: 3,
         name: 'variation',
-        type: 'text',
+        type: 'multiSelect',
         label: 'Variation',
         required: true,
         errorMsg: 'Variation Required'

@@ -19,6 +19,10 @@ import {
     GET_CATEGORY,
     GET_CATEGORY_SUCCESS,
     GET_CATEGORY_FAIL,
+    GET_VARIATION,
+    GET_VARIATION_SUCCESS,
+    GET_VARIATION_FAIL,
+    IS_SUCCESS_DONE,
 } from "./actionTypes";
 
 const initialState = {
@@ -26,7 +30,9 @@ const initialState = {
     products: [],
     error: '',
     product: formNameFields,
-    categories: []
+    categories: [],
+    variation: [],
+    isRedirect: false,
 };
 
 export default (state = initialState, action) => {
@@ -40,13 +46,19 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true,
             }
-        case ADD_PRODUCT_SUCCESSS:
         case GET_ALL_PRODUCT_SUCCESS:
         case REMOVE_PRODUCT_BY_ID_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                products: action.payload
+                products: action.payload,
+            }
+        case ADD_PRODUCT_SUCCESSS:
+            return {
+                ...state,
+                loading: false,
+                products: action.payload,
+                isRedirect: true,
             }
         case ADD_PRODUCT_FAIL:
         case GET_ALL_PRODUCT_FAIL:
@@ -58,12 +70,18 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: action.payload
             }
-        case UPDATE_PRODUCT_BY_ID_SUCCESS:
         case GET_PRODUCT_BY_ID_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 product: action.payload
+            }
+        case UPDATE_PRODUCT_BY_ID_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                product: action.payload,
+                isRedirect: true,
             }
         case GET_CATEGORY_SUCCESS:
             return {
@@ -75,6 +93,22 @@ export default (state = initialState, action) => {
                 ...state,
                 categories: [],
                 error: action.payload
+            }
+        case GET_VARIATION_SUCCESS:
+            return {
+                ...state,
+                variation: action.payload,
+            }
+        case GET_VARIATION_FAIL:
+            return {
+                ...state,
+                variation: [],
+                error: action.payload
+            }
+        case IS_SUCCESS_DONE:
+            return {
+                ...state,
+                isRedirect: action.payload
             }
         case RESET_PRODUCT:
             return {
