@@ -108,7 +108,7 @@ function ProductCreate() {
         btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}...`;
     }
     return (
-        <div>
+        <div className='p-2 border'>
             {loading && <Loading />}
             <form noValidate onSubmit={handleSubmit} className={`needs-validation ${formValidate ? 'was-validated' : ''}`}>
                 {newForm.map((input) => (

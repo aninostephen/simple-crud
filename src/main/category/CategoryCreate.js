@@ -80,7 +80,7 @@ const CategoryCreate = () => {
     }
 
     return (
-        <div>
+        <div className='p-2 border'>
             <form noValidate onSubmit={handleSubmit} className={`needs-validation ${formValidate ? 'was-validated' : ''}`}>
                 {inputsForm.map((input) => (
                     <Input key={input.id} {...input} defaultValue={productObj[input.name]} onChange={onChange} />

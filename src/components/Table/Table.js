@@ -1,7 +1,13 @@
 import React from 'react';
 import Loading from '../Loading';
 
-function Table(props) {
+const emptyTr = (colspan) => (
+    <tr>
+        <td colSpan={colspan} style={{textAlign: 'center'}}>Empty Data</td>
+    </tr>
+);
+
+const Table = (props) => {
     const {
         onClickEdit,
         onClickDelete,
@@ -23,6 +29,7 @@ function Table(props) {
                     </tr>
                 </thead>
                 <tbody>
+                    {body.length === 0 && emptyTr(header.length)}
                     {body && body.map((dt) => (
                         <tr key={dt.id}>
                             <th scope="row">{dt.id}</th>
