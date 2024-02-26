@@ -9,7 +9,6 @@ function index(props) {
     const {
         label,
         id,
-        errorMsg,
         onChangeMultileSelect,
         ...inputProps
     } = props
@@ -23,9 +22,6 @@ function index(props) {
             {props.type === 'select' && <Select {...inputProps} />}
             {props.type === 'multiSelect' && <MultipleSelect onChangeMultileSelect={onChangeMultileSelect} {...inputProps} />}
             {/* <input {...inputProps} onChange={onChange} className="form-control" /> */}
-            <div className="invalid-feedback">
-                {errorMsg}
-            </div>
         </div>
     );
 }

@@ -5,7 +5,8 @@ import {
     getAllProductApi,
     resetProduct,
     removeProductbyIdApi,
-    getDataByField
+    getDataByField,
+    realTimeRetrieval
 } from './redux/actions';
 import Table from '../../components/Table/Table';
 import { capitalizeFirstWord, objReconstruct, removeItemById } from '../../global/Utils';
@@ -28,6 +29,7 @@ const Product = () => {
         formFieldValueClear();
         dispatch(resetProduct());
         dispatch(getAllProductApi());
+        dispatch(realTimeRetrieval())
     }, [])
 
     useEffect(() => {

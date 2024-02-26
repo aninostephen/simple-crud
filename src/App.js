@@ -24,7 +24,7 @@ function App() {
               </div>
             </div>
             <div className="row mt-4 app-container">
-              <div className="col-2">
+              <div className="col-2 pe-0">
                 <Nav />
               </div>
               <div className="col-10 pt-3 pb-3 content">

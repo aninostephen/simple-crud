@@ -9,7 +9,8 @@ import {
     clearData,
     getAllDataApi,
     removeDatabyIdApi,
-    getDataByField
+    getDataByField,
+    realTimeRetrieval
 } from './redux/actions';
 import { MODULE_NAME } from './utils/application';
 import ListAction from '../../components/ListAction';
@@ -29,6 +30,7 @@ const Category = () => {
         formFieldValueClear();
         dispatch(clearData());
         dispatch(getAllDataApi());
+        dispatch(realTimeRetrieval()) //real time retrieval on data when there is changes on firebase
     }, []);
 
     useEffect(() => {

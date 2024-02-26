@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -7,12 +8,36 @@
   position: relative;
   background: #dfdfdf;
   border: 1px solid #bfbfbf;
-  border-radius: 8px;
+  border-radius: 0px 8px 8px 8px;
 }
-nav a.nav-link.active {
-  background: #212121;
-  color: #fff;
-  border-radius: 50px;
+.list table{
+  margin-bottom: 0px;
+}
+.nav-link i.bi{
+  margin-right: 5px;
+}
+/* .was-validated .invalid-feedback{
+  display: block;
+} */
+nav.nav.flex-column a.nav-link.active,
+nav.nav.flex-column a.nav-link:hover {
+  background: #dfdfdf;
+  color: #000;
+  font-weight: bold;
+  border-radius: 50px 0px 0px 50px;
+  border-top: 1px solid #bfbfbf;
+  border-left: 1px solid #bfbfbf;
+  border-bottom: 1px solid #bfbfbf;
+}
+nav.nav.flex-column{
+  margin-right: -1px;
+  position: relative;
+  z-index: 99;
+}
+nav.nav.flex-column .nav-link{
+  color: #505050;
+  font-weight: bold;
+  transition: none;
 }
 .container .content .overlay{
   background-color:#EFEFEF;
@@ -26,7 +51,7 @@ nav a.nav-link.active {
   filter: alpha(opacity=50); 
 }
 .header-top{
-  text-align: center;
+  text-align: left;
   margin-top: 25px;
 }
 .logo{

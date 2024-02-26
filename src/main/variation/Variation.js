@@ -9,7 +9,8 @@ import {
     clearData,
     getAllDataApi,
     removeDatabyIdApi,
-    getDataByField
+    getDataByField,
+    realTimeRetrieval
 } from './redux/actions';
 import { MODULE_NAME } from './utils/application';
 import useDebounceValue from '../../global/Debounce';
@@ -28,6 +29,7 @@ const Variation = () => {
         formFieldValueClear();
         dispatch(clearData());
         dispatch(getAllDataApi());
+        dispatch(realTimeRetrieval())
     }, []);
 
     useEffect(() => {

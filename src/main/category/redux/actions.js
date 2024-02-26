@@ -9,7 +9,8 @@ import {
     endAt,
     query,
     orderByChild,
-    startAt
+    startAt,
+    onValue
 } from "firebase/database";
 import swal from 'sweetalert';
 import { confirmDialog } from '../../../global/Utils';
@@ -260,5 +261,17 @@ export const getDataByField = (value, field) => {
         } else {
             dispatch(getAllDataFail('Error Fetching'));
         }
+    }
+}
+
+export const realTimeRetrieval = () => {
+    return async (dispatch) => {
+        const db = getDatabase(app);
+        const dbRef = ref(db, dbTblName);
+
+        onValue(dbRef, (snapshot) => {
+            const itemsData = snapshot.val();
+            dispatch(getAllDataSuccess(itemsData));
+        });
     }
 }

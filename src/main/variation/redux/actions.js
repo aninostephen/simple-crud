@@ -1,5 +1,17 @@
 import app from '../../../configFirebase';
-import { getDatabase, ref, set, push, get, remove, startAt, orderByChild, query, endAt } from "firebase/database";
+import {
+    getDatabase,
+    ref,
+    set,
+    push,
+    get,
+    remove,
+    startAt,
+    orderByChild,
+    query,
+    endAt,
+    onValue
+} from "firebase/database";
 import swal from 'sweetalert';
 import { confirmDialog } from '../../../global/Utils';
 
@@ -249,5 +261,17 @@ export const getDataByField = (value, field) => {
         } else {
             dispatch(getAllDataFail('Error Fetching'));
         }
+    }
+}
+
+export const realTimeRetrieval = () => {
+    return async (dispatch) => {
+        const db = getDatabase(app);
+        const dbRef = ref(db, dbTblName);
+
+        onValue(dbRef, (snapshot) => {
+            const itemsData = snapshot.val();
+            dispatch(getAllDataSuccess(itemsData));
+        });
     }
 }

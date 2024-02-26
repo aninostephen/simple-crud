@@ -4,7 +4,7 @@ import { MultiSelect } from "react-multi-select-component";
 const MultipleSelect = (props) => {
     let options = [];
     const [selected, setSelected] = useState([]);
-
+    const { errorMsg } = props;
     useEffect(() => {
         setSelected(props.selectedmultiple);
     }, [props.selectedmultiple])
@@ -31,6 +31,9 @@ const MultipleSelect = (props) => {
             onChange={handleSelection}
             labelledBy="Select"
         />
+        <div className="invalid-feedback">
+            {errorMsg}
+        </div>
       </div>
     );
   };
