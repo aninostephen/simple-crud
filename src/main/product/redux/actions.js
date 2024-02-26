@@ -1,5 +1,16 @@
 import app from '../../../configFirebase';
-import { getDatabase, ref, set, push, get, remove } from "firebase/database";
+import {
+    getDatabase,
+    ref,
+    set,
+    push,
+    get,
+    remove,
+    orderByChild,
+    query,
+    startAt,
+    endAt
+} from "firebase/database";
 import swal from 'sweetalert';
 import { confirmDialog } from '../../../global/Utils';
 
@@ -234,6 +245,35 @@ export const getAllProductApi = () => {
         }
     }
 };
+
+export const getDataByField = (value, field) => {
+    return async (dispatch) => {
+        dispatch(getAllProduct());
+        const db = getDatabase(app);
+        const dbRef = ref(db, dbTblName);
+        const searchString = value.toLowerCase()
+        const q = query(dbRef, orderByChild(field), startAt(searchString), endAt(searchString + "\uf8ff"));
+        
+        const snapshot = await get(q);
+        if (snapshot.exists()) {
+            const dt = snapshot.val();
+            for (const dtId in dt) {
+                if (Object.hasOwnProperty.call(dt, dtId)) {
+                    const item = dt[dtId];
+                    await Promise.all(joinTbl.map(async (tbl) => {
+                        const category = await get(ref(db, `merchant/${tbl}/${item[tbl]}`));
+                        if (category.exists()) {
+                            dt[dtId].category = category.val().cname;
+                        }
+                    }));
+                }
+            }
+            dispatch(getAllProductSuccess(dt));
+        } else {
+            dispatch(getAllProductFail('Error Fetching'));
+        }
+    }
+}
 
 export const getProductByIdApi = id => {
     return async (dispatch) => {

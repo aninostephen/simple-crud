@@ -1,9 +1,11 @@
 import React from 'react';
+import Loading from '../Loading';
 
 function Table(props) {
     const {
         onClickEdit,
         onClickDelete,
+        loading,
         data: {
             header,
             body,
@@ -12,7 +14,8 @@ function Table(props) {
     } = props;
 
     return (
-        <div>
+        <div className="p-2 border mt-4">
+           {loading && <Loading />}
            <table className="table">
                 <thead>
                     <tr>
@@ -26,7 +29,7 @@ function Table(props) {
                             {listOrder && listOrder.map((order) => <td key={order}>{dt[order]}</td>)}
                             <td>
                                 <button type="button" className="btn btn-primary" onClick={() => onClickEdit(`edit/${dt.id}`)}>Edit</button>
-                                <button type="button" className="btn btn-danger" onClick={() => onClickDelete(dt.id)}>Delete</button>
+                                <button type="button" className="btn btn-danger ms-2" onClick={() => onClickDelete(dt.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

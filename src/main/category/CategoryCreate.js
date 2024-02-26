@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { formFieldsValue, formNameFields } from './utils/fields';
 import inputsForm from './utils/form';
 import Input from '../../components/Input';
 import {
     addDataApi,
     getDataByIdApi,
+    isRedirectDone,
     updateDataByIdApi
 } from './redux/actions';
-import { MODULE_NAME } from './utils/application';
+import { INDEX_NAME, MODULE_NAME } from './utils/application';
 import { capitalizeFirstWord } from '../../global/Utils';
 
 const CategoryCreate = () => {
     const {id, action} = useParams();
+    const history = useHistory();
     const propsState = useSelector(state => state[MODULE_NAME]);
     const dispatch = useDispatch();
     const [formValidate, setFormValidate] = useState(false);
     const [values, setValues] = useState(formNameFields);
 
-    const { loading, item } = propsState;
+    const { loading, item, isRedirect } = propsState;
 
     useEffect(() => {
         if(!loading){
@@ -38,6 +40,13 @@ const CategoryCreate = () => {
         }
     }, [action, item.cname, id]);
 
+    useEffect(() => {
+        if (isRedirect) {
+            dispatch(isRedirectDone(false));
+            history.push(`/${MODULE_NAME}`);
+        }
+    }, [isRedirect])
+
     const handleSubmit = e => {
         e.preventDefault();
         const form = e.currentTarget;
@@ -49,12 +58,13 @@ const CategoryCreate = () => {
 
         setFormValidate(false);
 
+        values.slug = values[INDEX_NAME] ? values[INDEX_NAME].toLocaleLowerCase() : '';
         if (action === 'edit') {
             dispatch(updateDataByIdApi(id, values));
         } else {
             dispatch(addDataApi(values));
         }
-        
+
     };
 
     const onChange = (e) => {

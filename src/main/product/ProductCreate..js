@@ -52,7 +52,6 @@ function ProductCreate() {
     }, [action, product.pname, id]);
 
     useEffect(() => {
-        console.log(isRedirect)
         if (isRedirect) {
             dispatch(isRedirectDone(false));
             history.push(`/`);
@@ -69,7 +68,8 @@ function ProductCreate() {
         }
 
         setFormValidate(false);
-        
+
+        values.slug = values.pname ? values.pname.toLocaleLowerCase() : '';
         if (action === 'edit') {
             dispatch(updateProductByIdApi(id, values));
         } else {
@@ -112,10 +112,10 @@ function ProductCreate() {
                         defaultValue={productObj[input.name]}
                         onChange={onChange}
                         onChangeMultileSelect={onChangeMultileSelect}
-                        multSelected={multSelected}
+                        selectedmultiple={multSelected}
                     />
                 ))}
-                <button className="btn btn-outline-primary" type="submit">Submit</button>
+                <button className="btn btn-outline-primary" type="submit">{loading ? 'Saving...' : 'Submit'}</button>
             </form>
         </div>
     );

@@ -6,8 +6,8 @@ const MultipleSelect = (props) => {
     const [selected, setSelected] = useState([]);
 
     useEffect(() => {
-        setSelected(props.multSelected);
-    }, [props.multSelected])
+        setSelected(props.selectedmultiple);
+    }, [props.selectedmultiple])
 
     const handleSelection = (selected) => {
         setSelected(selected);

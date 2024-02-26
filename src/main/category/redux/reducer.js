@@ -17,6 +17,7 @@ import {
     REMOVE_DATA_BY_ID_SUCCESS,
     REMOVE_DATA_BY_ID_FAIL,
     RESET_DATA,
+    REDIRECTION,
 } from './actionTypes';
 
 const initialState = {
@@ -24,6 +25,7 @@ const initialState = {
     items: [],
     error: '',
     item: formNameFields,
+    isRedirect: false,
 };
 
 export default (state = initialState, action) => {
@@ -37,14 +39,18 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true,
             }
-        case ADD_DATA_SUCCESSS:
         case GET_ALL_DATA_SUCCESS:
         case REMOVE_DATA_BY_ID_SUCCESS:
-            console.log(action);
             return {
                 ...state,
                 loading: false,
                 items: action.payload
+            }
+        case ADD_DATA_SUCCESSS:
+            return {
+                ...state,
+                loading: false,
+                isRedirect: true
             }
         case ADD_DATA_FAIL:
         case GET_ALL_DATA_FAIL:
@@ -57,12 +63,23 @@ export default (state = initialState, action) => {
                 items: [],
                 error: action.payload
             }
-        case UPDATE_DATA_BY_ID_SUCCESS:
         case GET_DATA_BY_ID_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 item: action.payload
+            }
+        case UPDATE_DATA_BY_ID_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                item: action.payload,
+                isRedirect: true
+            }
+        case REDIRECTION:
+            return {
+                ...state,
+                isRedirect: action.payload
             }
         case RESET_DATA:
             return {

@@ -2,7 +2,7 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.row.list{position: relative;}
 .container .content{
   position: relative;
 }

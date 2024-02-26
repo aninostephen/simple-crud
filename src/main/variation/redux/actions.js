@@ -1,5 +1,5 @@
 import app from '../../../configFirebase';
-import { getDatabase, ref, set, push, get, remove } from "firebase/database";
+import { getDatabase, ref, set, push, get, remove, startAt, orderByChild, query, endAt } from "firebase/database";
 import swal from 'sweetalert';
 import { confirmDialog } from '../../../global/Utils';
 
@@ -20,10 +20,18 @@ import {
     REMOVE_DATA_BY_ID_SUCCESS,
     REMOVE_DATA_BY_ID_FAIL,
     RESET_DATA,
+    REDIRECTION,
 } from './actionTypes';
 import { DB_TBL_NAME } from '../utils/application';
 
 const dbTblName = DB_TBL_NAME; //table name
+
+export const isRedirectDone = (payload) => {
+    return {
+        type: REDIRECTION,
+        payload
+    }
+}
 
 export const clearData = () => {
     return {
@@ -224,5 +232,22 @@ export const removeDatabyIdApi = (id, updatedItem) => {
                     });
         }
         
+    }
+}
+
+export const getDataByField = (value, field) => {
+    return async (dispatch) => {
+        dispatch(getAllData());
+        const db = getDatabase(app);
+        const dbRef = ref(db, dbTblName);
+        const searchString = value.toLowerCase();
+        const q = query(dbRef, orderByChild(field), startAt(searchString), endAt(searchString + "\uf8ff"));
+        
+        const snapshot = await get(q);
+        if (snapshot.exists()) {
+            dispatch(getAllDataSuccess(snapshot.val()));
+        } else {
+            dispatch(getAllDataFail('Error Fetching'));
+        }
     }
 }

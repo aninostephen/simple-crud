@@ -8,7 +8,7 @@ const header = [
     },
     {
         id: 'pth2',
-        name: `${capitalizeFirstWord(MODULE_NAME)}}`
+        name: `${capitalizeFirstWord(MODULE_NAME)}`
     },
     {
         id: 'pth6',

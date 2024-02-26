@@ -16,10 +16,8 @@ import {
     REMOVE_PRODUCT_BY_ID_SUCCESS,
     REMOVE_PRODUCT_BY_ID_FAIL,
     RESET_PRODUCT,
-    GET_CATEGORY,
     GET_CATEGORY_SUCCESS,
     GET_CATEGORY_FAIL,
-    GET_VARIATION,
     GET_VARIATION_SUCCESS,
     GET_VARIATION_FAIL,
     IS_SUCCESS_DONE,
@@ -68,6 +66,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
+                products: [],
                 error: action.payload
             }
         case GET_PRODUCT_BY_ID_SUCCESS:
