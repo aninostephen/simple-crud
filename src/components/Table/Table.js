@@ -20,7 +20,7 @@ const Table = (props) => {
     } = props;
 
     return (
-        <div className="p-2 border mt-4">
+        <div className="border mt-4">
            {loading && <Loading />}
            <table className="table">
                 <thead>

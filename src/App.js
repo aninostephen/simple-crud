@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import store from './redux/store';
 import './App.css';
+import logo from './assets/CRUD.png'
 import "bootstrap/dist/css/bootstrap.min.css"
 import Product from './main/product/Product';
 import Category from './main/category/Category';
@@ -17,7 +18,12 @@ function App() {
       <Router>
         <div className="App">
           <div className='container'>
-            <div className="row mt-4">
+            <div className='row'>
+              <div className="col header-top">
+                <img src={logo} className="logo img-fluid" />
+              </div>
+            </div>
+            <div className="row mt-4 app-container">
               <div className="col-2">
                 <Nav />
               </div>

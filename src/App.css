@@ -5,8 +5,15 @@
 .row.list{position: relative;}
 .container .content{
   position: relative;
+  background: #dfdfdf;
+  border: 1px solid #bfbfbf;
+  border-radius: 8px;
 }
-
+nav a.nav-link.active {
+  background: #212121;
+  color: #fff;
+  border-radius: 50px;
+}
 .container .content .overlay{
   background-color:#EFEFEF;
   position: absolute;
@@ -18,7 +25,16 @@
   opacity: .5; 
   filter: alpha(opacity=50); 
 }
+.header-top{
+  text-align: center;
+  margin-top: 25px;
+}
+.logo{
+  width: 150px;
+}
+.app-container{
 
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
