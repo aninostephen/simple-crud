@@ -72,7 +72,12 @@ const CategoryCreate = () => {
     };
 
     const productObj = action === 'edit' ? item : values;
-    const btnAction = action === 'edit' ? 'Edit' : 'Add';
+    let btnAction = action === 'edit' ? 'Edit' : 'Add';
+    let btnName = `${btnAction} ${capitalizeFirstWord(MODULE_NAME)}`
+    if (loading) {
+        btnAction = action === 'edit' ? 'Updating' : 'Adding';
+        btnName = `${btnAction} ${capitalizeFirstWord(MODULE_NAME)}...`;
+    }
 
     return (
         <div>
@@ -80,7 +85,7 @@ const CategoryCreate = () => {
                 {inputsForm.map((input) => (
                     <Input key={input.id} {...input} defaultValue={productObj[input.name]} onChange={onChange} />
                 ))}
-                <button className="btn btn-outline-primary" type="submit">{btnAction} {capitalizeFirstWord(MODULE_NAME)}</button>
+                <button className="btn btn-outline-primary" type="submit">{btnName}</button>
             </form>
         </div>
     );

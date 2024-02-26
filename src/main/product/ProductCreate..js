@@ -13,7 +13,7 @@ import {
     isRedirectDone
 } from './redux/actions';
 import Loading from '../../components/Loading';
-import { multSelectConstruct, objReconstruct, populateSelectFromFormData } from '../../global/Utils';
+import { capitalizeFirstWord, multSelectConstruct, objReconstruct, populateSelectFromFormData } from '../../global/Utils';
 
 const moduleName = 'product';
 function ProductCreate() {
@@ -101,6 +101,12 @@ function ProductCreate() {
 
     const multSelected = multSelectConstruct(variation, productObj.variation, 'vname');
 
+    let btnAction = action === 'edit' ? 'Edit' : 'Add';
+    let btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}`
+    if (loading) {
+        btnAction = action === 'edit' ? 'Updating' : 'Adding';
+        btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}...`;
+    }
     return (
         <div>
             {loading && <Loading />}
@@ -115,7 +121,7 @@ function ProductCreate() {
                         selectedmultiple={multSelected}
                     />
                 ))}
-                <button className="btn btn-outline-primary" type="submit">{loading ? 'Saving...' : 'Submit'}</button>
+                <button className="btn btn-outline-primary" type="submit">{btnName}</button>
             </form>
         </div>
     );
