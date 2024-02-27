@@ -21,7 +21,6 @@ const MultipleSelect = (props) => {
                 value: val.id
             })
         })
-
     return (
       <div>
         <MultiSelect

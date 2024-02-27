@@ -6,10 +6,11 @@ import {
     resetProduct,
     removeProductbyIdApi,
     getDataByField,
-    realTimeRetrieval
+    realTimeRetrieval,
+    getAllVariationApi
 } from './redux/actions';
 import Table from '../../components/Table/Table';
-import { capitalizeFirstWord, objReconstruct, removeItemById } from '../../global/Utils';
+import { embedMultipleElement, removeItemById } from '../../global/Utils';
 import { formFieldValueClear, formFieldOrder } from './utils/fields';
 import tableForm from './utils/table';
 import ListAction from '../../components/ListAction';
@@ -23,14 +24,19 @@ const Product = () => {
     const [searchVal, setSearchVal] = useState('')
     const searchDebounce  = useDebounceValue(searchVal)
 
-    const { products, loading } = propsState;
+    const { products, loading, variation } = propsState;
 
     useEffect(() => {
         formFieldValueClear();
         dispatch(resetProduct());
+        dispatch(getAllVariationApi())
         dispatch(getAllProductApi());
-        dispatch(realTimeRetrieval())
+        //dispatch(realTimeRetrieval())
     }, [])
+
+    useEffect(() => { 
+        
+    }, [variation])
 
     useEffect(() => {
         if (searchDebounce !== '') {
@@ -55,8 +61,8 @@ const Product = () => {
        const value = e.target.value;
        setSearchVal(value);
     }
-
-    tableForm.body = objReconstruct(products);
+    
+    tableForm.body = embedMultipleElement(products, variation, 'variation');
     tableForm.order = formFieldOrder;
     return (
         <div>

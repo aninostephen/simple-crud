@@ -1,7 +1,6 @@
 import React from 'react';
 
-const InputNumber = (props) => {
-    const { errorMsg } = props
+const InputNumber = ({errorMsg, ...props}) => {
     return (
         <div>
             <input {...props} className="form-control" />

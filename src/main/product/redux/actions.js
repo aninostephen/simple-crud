@@ -13,7 +13,7 @@ import {
     onValue
 } from "firebase/database";
 import swal from 'sweetalert';
-import { confirmDialog } from '../../../global/Utils';
+import { confirmDialog, objReconstruct, objToArray } from '../../../global/Utils';
 
 import {
     ADD_PRODUCT,
@@ -236,11 +236,13 @@ export const getAllProductApi = () => {
                         const category = await get(ref(db, `merchant/${tbl}/${item[tbl]}`));
                         if (category.exists()) {
                             dt[dtId].category = category.val().cname;
+                        } else {
+                            dt[dtId].category = '';
                         }
                     }));
                 }
             }
-            dispatch(getAllProductSuccess(dt));
+            dispatch(getAllProductSuccess(objToArray(dt, 'pname', true)));
         } else {
             dispatch(getAllProductFail('Error Fetching'));
         }
@@ -269,7 +271,7 @@ export const getDataByField = (value, field) => {
                     }));
                 }
             }
-            dispatch(getAllProductSuccess(dt));
+            dispatch(getAllProductSuccess(objToArray(dt, 'pname', true)));
         } else {
             dispatch(getAllProductFail('Error Fetching'));
         }
@@ -375,7 +377,7 @@ export const realTimeRetrieval = () => {
 
         onValue(dbRef, (snapshot) => {
             const itemsData = snapshot.val();
-            dispatch(getAllProductSuccess(itemsData));
+            dispatch(getAllProductSuccess(objToArray(itemsData, 'pname', true)));
         });
     }
 }

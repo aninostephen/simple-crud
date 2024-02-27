@@ -13,7 +13,7 @@ import {
     onValue
 } from "firebase/database";
 import swal from 'sweetalert';
-import { confirmDialog } from '../../../global/Utils';
+import { confirmDialog, objToArray } from '../../../global/Utils';
 
 import {
     ADD_DATA, //intended to do loading state
@@ -34,7 +34,7 @@ import {
     RESET_DATA,
     REDIRECTION,
 } from './actionTypes';
-import { DB_TBL_NAME } from '../utils/application';
+import { DB_TBL_NAME, INDEX_NAME } from '../utils/application';
 
 const dbTblName = DB_TBL_NAME; //table name
 
@@ -180,7 +180,7 @@ export const getAllDataApi = () => {
         const snapshot = await get(dbRef);
         
         if (snapshot.exists()) {
-            dispatch(getAllDataSuccess(snapshot.val()));
+            dispatch(getAllDataSuccess(objToArray(snapshot.val(), INDEX_NAME, true)));
         } else {
             dispatch(getAllDataFail('Error Fetching'));
         }
@@ -217,7 +217,6 @@ export const getDataByIdApi = id => {
         const snapshot = await get(dbRef);
 
         if (snapshot.exists()) {
-            console.log(snapshot.val())
             dispatch(getDataByIdSuccess(snapshot.val()));
         } else {
             dispatch(getDataByIdFail('Error Fetching and ID'));

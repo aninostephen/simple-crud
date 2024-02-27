@@ -57,7 +57,7 @@ const Category = () => {
         setSearchVal(value);
      }
 
-    tableForm.body = objReconstruct(items);
+    tableForm.body = items;
     tableForm.order = formFieldOrder;
 
     return (

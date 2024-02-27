@@ -11,16 +11,21 @@ const header = [
         id: 'pth3',
         name: 'Category'
     },
+    ,
     {
         id: 'pth4',
-        name: 'Stocks'
+        name: 'Variation'
     },
     {
         id: 'pth5',
-        name: 'Cost'
+        name: 'Stocks'
     },
     {
         id: 'pth6',
+        name: 'Cost'
+    },
+    {
+        id: 'pth7',
         name: 'Action'
     }
 ];

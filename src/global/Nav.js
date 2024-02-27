@@ -17,12 +17,12 @@ const Nav = () => {
                 >
                     <i class="bi bi-basket3-fill"></i>Product
                 </Link>
-                <Link to="/category" className={`nav-link ${pathname.startsWith('/category') ? 'active' : ''}`}><i class="bi bi-stack"></i> Category</Link>
-                <Link to="/variation" className={`nav-link ${pathname.startsWith('/variation') ? 'active' : ''}`}><i class="bi bi-ui-radios-grid"></i> Variation</Link>
-                <Link to="#" className="nav-link"><i class="bi bi-people-fill"></i> Customer</Link>
-                <Link to="#" className="nav-link"><i class="bi bi-cart-check-fill"></i> Order</Link>
-                <Link to="#" className="nav-link"><i class="bi bi-bar-chart-fill"></i> Sales</Link>
-                <Link to="#" className="nav-link"><i class="bi bi-gear-fill"></i> Settings</Link>
+                <Link to="/category" className={`nav-link ${pathname.startsWith('/category') ? 'active' : ''}`}><i className="bi bi-stack"></i> Category</Link>
+                <Link to="/variation" className={`nav-link ${pathname.startsWith('/variation') ? 'active' : ''}`}><i className="bi bi-ui-radios-grid"></i> Variation</Link>
+                <Link to="#" className="nav-link"><i className="bi bi-people-fill"></i> Customer</Link>
+                <Link to="#" className="nav-link"><i className="bi bi-cart-check-fill"></i> Order</Link>
+                <Link to="#" className="nav-link"><i className="bi bi-bar-chart-fill"></i> Sales</Link>
+                <Link to="#" className="nav-link"><i className="bi bi-gear-fill"></i> Settings</Link>
             </nav>
         </div>
     );

@@ -13,7 +13,8 @@ import {
     isRedirectDone
 } from './redux/actions';
 import Loading from '../../components/Loading';
-import { capitalizeFirstWord, multSelectConstruct, objReconstruct, populateSelectFromFormData } from '../../global/Utils';
+import { btnAction, capitalizeFirstWord, multSelectConstruct, objReconstruct, populateSelectFromFormData } from '../../global/Utils';
+import useBeforeUnload from '../../global/BeforeUnload';
 
 const moduleName = 'product';
 function ProductCreate() {
@@ -23,6 +24,8 @@ function ProductCreate() {
     const dispatch = useDispatch();
     const [formValidate, setFormValidate] = useState(false);
     const [values, setValues] = useState(formNameFields);
+    const [initialFormData, setInitialFormData] = useState(false);
+    const [formChanged, setFormChanged] = useState(false);
 
     const {
         loading,
@@ -31,6 +34,19 @@ function ProductCreate() {
         variation,
         isRedirect,
     } = propsState;
+
+    const formData = action === 'edit' ? product : values;
+
+    useEffect(() => {
+        // Store the initial form data when component mounts, this is handler for form restrict
+        setInitialFormData(formData);
+    }, action === 'edit' ? [formData] : []);
+
+    useEffect(() => {
+        const hasChanged = Object.keys(values).some(key => values[key] !== initialFormData[key]);
+        console.log(hasChanged)
+        setFormChanged(hasChanged);
+    }, [values, initialFormData]);
 
     useEffect(() => {
         if(!loading){
@@ -49,6 +65,7 @@ function ProductCreate() {
         if (action === 'edit' && product.pname === '') {
             dispatch(getProductByIdApi(id));
         }
+
     }, [action, product.pname, id]);
 
     useEffect(() => {
@@ -56,7 +73,10 @@ function ProductCreate() {
             dispatch(isRedirectDone(false));
             history.push(`/`);
         }
-    }, [isRedirect])
+    }, [isRedirect]);
+
+    //restrict page to change pages if there is a changes in the form alert must appear
+    useBeforeUnload(formChanged, initialFormData, formData); 
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -67,8 +87,8 @@ function ProductCreate() {
             return false;
         }
 
+        setFormChanged(false);
         setFormValidate(false);
-
         values.slug = values.pname ? values.pname.toLocaleLowerCase() : '';
         if (action === 'edit') {
             dispatch(updateProductByIdApi(id, values));
@@ -86,8 +106,6 @@ function ProductCreate() {
         setValues({ ...values, [name]: val.map(item => item.value).join(", ")})
     }
 
-    const productObj = action === 'edit' ? product : values;
-
     const normalizeCategories = objReconstruct(categories, 'cname');
     const normalizeVariation = objReconstruct(variation, 'vname');
 
@@ -99,14 +117,8 @@ function ProductCreate() {
         [normalizeCategories, normalizeVariation]
     )
 
-    const multSelected = multSelectConstruct(variation, productObj.variation, 'vname');
+    const multSelected = multSelectConstruct(variation, values.variation, 'vname');
 
-    let btnAction = action === 'edit' ? 'Edit' : 'Add';
-    let btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}`
-    if (loading) {
-        btnAction = action === 'edit' ? 'Updating' : 'Adding';
-        btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}...`;
-    }
     return (
         <div className='p-2 border'>
             {loading && <Loading />}
@@ -115,13 +127,17 @@ function ProductCreate() {
                     <Input
                         key={input.id}
                         {...input}
-                        defaultValue={productObj[input.name]}
+                        defaultValue={values[input.name]}
                         onChange={onChange}
                         onChangeMultileSelect={onChangeMultileSelect}
                         selectedmultiple={multSelected}
                     />
                 ))}
-                <button className="btn btn-outline-primary" type="submit">{btnName}</button>
+                <button className="btn btn-outline-primary" type="submit">
+                    {
+                        btnAction(action, loading, moduleName)
+                    }
+                </button>
             </form>
         </div>
     );

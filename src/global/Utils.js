@@ -12,6 +12,27 @@ const objReconstruct = (data, newKey) => {
     }));
 }
 
+const objToArray = (data, idKey, isReverse) => {
+    if (!data) {
+        return [];
+    }
+
+    const arr = [];
+    Object.keys(data).map((key) => {
+        arr.push({
+            id: key,
+            name: data[key][idKey],
+            ...data[key],
+        });
+    });
+
+    if (isReverse) {
+        arr.reverse();
+    }
+
+    return arr;
+}
+
 const multSelectConstruct = (data, val, value) => {
     if (!data || !val) {
         return [];
@@ -32,14 +53,8 @@ const multSelectConstruct = (data, val, value) => {
     return options;
 }
 
-const removeItemById = (item, idToRemove) => {
-    const updatedItems = {};
-    for (const itemId in item) {
-        if (itemId !== idToRemove) {
-            updatedItems[itemId] = item[itemId];
-        }
-    }
-    return updatedItems;
+const removeItemById = (items, idToRemove) => {
+    return items.filter(item => item.id !== idToRemove);
 };
 
 const confirmDialog = async (title, text) => {
@@ -76,6 +91,33 @@ const populateSelectFromFormData = (data = [], targetField, newKey, newValue) =>
     return data;
 }
 
+const btnAction = (action, loading, moduleName) => {
+    let btnAction = action === 'edit' ? 'Edit' : 'Add';
+    let btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}`
+    if (loading) {
+        btnAction = action === 'edit' ? 'Updating' : 'Adding';
+        btnName = `${btnAction} ${capitalizeFirstWord(moduleName)}...`;
+    }
+
+    return btnName;
+}
+
+const embedMultipleElement = (source, data, target) => {
+    source.map((src) => {
+        const targetData = src[target];
+        let elems = [];
+        if (targetData.includes(',')) {
+            const splitValues = targetData.split(',').map(value => value.trim());
+            splitValues.map((idx) => elems.push(data[idx].slug))
+        } else {
+            elems = [data[targetData].slug];
+        }
+        src[`multiple_${target}`] = elems;
+    });
+
+    return source;
+}
+
 export {
     objReconstruct,
     removeItemById,
@@ -83,4 +125,7 @@ export {
     capitalizeFirstWord,
     populateSelectFromFormData,
     multSelectConstruct,
+    objToArray,
+    btnAction,
+    embedMultipleElement,
 };

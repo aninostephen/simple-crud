@@ -11,7 +11,8 @@ import {
     isRedirectDone,
 } from './redux/actions';
 import { INDEX_NAME, MODULE_NAME } from './utils/application';
-import { capitalizeFirstWord } from '../../global/Utils';
+import { btnAction } from '../../global/Utils';
+import useBeforeUnload from '../../global/BeforeUnload';
 
 const VariationCreate = () => {
     const {id, action} = useParams();
@@ -20,8 +21,23 @@ const VariationCreate = () => {
     const dispatch = useDispatch();
     const [formValidate, setFormValidate] = useState(false);
     const [values, setValues] = useState(formNameFields);
+    const [initialFormData, setInitialFormData] = useState(false);
+    const [formChanged, setFormChanged] = useState(false);
 
     const { loading, item, isRedirect } = propsState;
+
+    const formData = action === 'edit' ? item : values;
+
+    useEffect(() => {
+        // Store the initial form data when component mounts, this is handler for form restrict
+        setInitialFormData(formData);
+    }, action === 'edit' ? [formData] : []);
+
+    useEffect(() => {
+        const hasChanged = Object.keys(values).some(key => values[key] !== initialFormData[key]);
+        console.log(hasChanged)
+        setFormChanged(hasChanged);
+    }, [values, initialFormData]);
 
     useEffect(() => {
         if(!loading){
@@ -45,7 +61,10 @@ const VariationCreate = () => {
             dispatch(isRedirectDone(false));
             history.push(`/${MODULE_NAME}`);
         }
-    }, [isRedirect])
+    }, [isRedirect]);
+
+     //restrict page to change pages if there is a changes in the form alert must appear
+     useBeforeUnload(formChanged, initialFormData, formData); 
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -56,8 +75,8 @@ const VariationCreate = () => {
             return false;
         }
 
+        setFormChanged(false);
         setFormValidate(false);
-        
         values.slug = values[INDEX_NAME] ? values[INDEX_NAME].toLocaleLowerCase() : '';
         if (action === 'edit') {
             dispatch(updateDataByIdApi(id, values));
@@ -70,22 +89,16 @@ const VariationCreate = () => {
     const onChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
-
-    const productObj = action === 'edit' ? item : values;
-    let btnAction = action === 'edit' ? 'Edit' : 'Add';
-    let btnName = `${btnAction} ${capitalizeFirstWord(MODULE_NAME)}`
-    if (loading) {
-        btnAction = action === 'edit' ? 'Updating' : 'Adding';
-        btnName = `${btnAction} ${capitalizeFirstWord(MODULE_NAME)}...`;
-    }
     
     return (
         <div className='p-2 border'>
             <form noValidate onSubmit={handleSubmit} className={`needs-validation ${formValidate ? 'was-validated' : ''}`}>
                 {inputsForm.map((input) => (
-                    <Input key={input.id} {...input} defaultValue={productObj[input.name]} onChange={onChange} />
+                    <Input key={input.id} {...input} defaultValue={formData[input.name]} onChange={onChange} />
                 ))}
-                <button className="btn btn-outline-primary" type="submit">{btnName}</button>
+                <button className="btn btn-outline-primary" type="submit">
+                    {btnAction(action, loading, MODULE_NAME)}
+                </button>
             </form>
         </div>
     );

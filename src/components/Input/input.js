@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Input = (props) => {
-    const { errorMsg } = props;
+const Input = ({errorMsg, ...props}) => {
     return (
         <>
             <input {...props} className="form-control" />

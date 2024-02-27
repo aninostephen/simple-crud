@@ -7,7 +7,7 @@ const formNameFields = {
     variation: "",
 }
 
-const formFieldOrder = ['pname', 'category', 'stock', 'cost']; //not include id and action column
+const formFieldOrder = ['pname', 'category', 'multiple_variation', 'stock', 'cost']; //not include id and action column
 
 const formFieldsValue = (data) => {
     Object.keys(formNameFields).forEach(field => {

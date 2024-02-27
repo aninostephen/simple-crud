@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Select = (props) => {
-    const { errorMsg } = props
+const Select = ({errorMsg, ...props}) => {
     return (
         <>
             <select {...props} className="form-select" aria-label=".form-select-lg example">
