@@ -1,6 +1,7 @@
 import React from 'react';
 import Loading from '../Loading';
 import { capitalizeFirstWord } from '../../global/Utils';
+import {Row} from 'bootstrap'
 
 const emptyTr = (colspan) => (
     <tr>
@@ -25,7 +26,7 @@ const Table = (props) => {
     } = props;
 
     return (
-        <div className="border mt-4">
+        <div className="border mt-4 table-responsive">
            {loading && <Loading />}
            <table className="table">
                 <thead>
